@@ -4,7 +4,7 @@ import utils as u
 import numpy as np
 from numpy.typing import NDArray
 from typing import Any
-#from part_1_template_solution import Section1 as Part1
+from part_1_template_solution import Section1 as Part1
 from sklearn.linear_model import LogisticRegression
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import (
@@ -133,50 +133,7 @@ class Section2:
         answer = {}
         
 
-        def partC(
-                self,
-                X: NDArray[np.floating],
-                y: NDArray[np.int32],
-            ):
-            # scores, clf, cv = self.partC(X, y)
-            # Enter your code and fill the `answer` dictionary
-            answer = {}
-            cv = KFold(n_splits=5,shuffle=True,random_state=self.seed)
-            clf = DecisionTreeClassifier(random_state=self.seed)
-            clf.fit(X,y)
-            scores = cross_validate(clf,X,y,cv=cv)
-            accuracy = scores['test_score']
-            answer['scores'] = {'mean_fit_time': scores['fit_time'].mean(),'std_fit_time': scores['fit_time'].std(),'mean_accuracy': accuracy.mean(),'std_accuracy': accuracy.std()}
-            #print(f"mean accuracy: {accuracy.mean()}\nstd accuracy: {accuracy.std()}")
         
-            answer["clf"] = clf  # the estimator (classifier instance)
-            answer["cv"] = cv  # the cross validator instance
-            # the dictionary with the scores  (a dictionary with
-            # keys: 'mean_fit_time', 'std_fit_time', 'mean_accuracy', 'std_accuracy'.
-            return answer
-
-
-        def partD(
-                self,
-            X: NDArray[np.floating],
-                y: NDArray[np.int32],
-        ):
-            # Enter your code and fill the `answer` dictionary
-            cv = ShuffleSplit(n_splits=5,random_state=self.seed)
-            clf = DecisionTreeClassifier(random_state=self.seed)
-            clf.fit(X,y)
-            scores = cross_validate(clf,X,y,cv=cv)
-            accuracy = scores['test_score']
-            #print(f"mean accuracy: {accuracy.mean()}\nstd accuracy: {accuracy.std()}")
-        
-            # Answer: same structure as partC, except for the key 'explain_kfold_vs_shuffle_split'
-
-            answer = {}
-            answer["clf"] = clf
-            answer["cv"] = cv
-            answer['scores'] = {'mean_fit_time': scores['fit_time'].mean(),'std_fit_time': scores['fit_time'].std(),'mean_accuracy': accuracy.mean(),'std_accuracy': accuracy.std()}
-            answer["explain_kfold_vs_shuffle_split"] = "Shuffle split can be more helpful in examining the variablilty of models compared to Kfold, but can be worse and less stable when trying to do a basic model evaluation."
-            return answer
 
 
         def partF(
@@ -237,8 +194,8 @@ class Section2:
             _,class_count_train = np.unique(ytrain,return_counts=True)
             _,class_count_test = np.unique(ytest,return_counts=True)
             answer[n] = {
-            "partC" : partC(self,Xtrain,ytrain),
-            "partD" : partD(self,Xtrain,ytrain),
+            "partC" : Part1.partC(self,Xtrain,ytrain),
+            "partD" : Part2.partD(self,Xtrain,ytrain),
             "partF" : partF(self,Xtrain,ytrain,Xtest,ytest),
             "ntrain" : n,
             "ntest" : ntest_list[ind],
