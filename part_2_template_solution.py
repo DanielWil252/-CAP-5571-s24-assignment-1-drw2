@@ -146,7 +146,7 @@ class Section2:
             clf.fit(X,y)
             scores = cross_validate(clf,X,y,cv=cv)
             accuracy = scores['test_score']
-            answer['scores_C'] = {'mean_fit_time': scores['fit_time'].mean(),'std_fit_time': scores['fit_time'].std(),'mean_accuracy': accuracy.mean(),'std_accuracy': accuracy.std()}
+            answer['scores'] = {'mean_fit_time': scores['fit_time'].mean(),'std_fit_time': scores['fit_time'].std(),'mean_accuracy': accuracy.mean(),'std_accuracy': accuracy.std()}
             #print(f"mean accuracy: {accuracy.mean()}\nstd accuracy: {accuracy.std()}")
         
             answer["clf"] = clf  # the estimator (classifier instance)
@@ -174,7 +174,7 @@ class Section2:
             answer = {}
             answer["clf"] = clf
             answer["cv"] = cv
-            answer['scores_D'] = {'mean_fit_time': scores['fit_time'].mean(),'std_fit_time': scores['fit_time'].std(),'mean_accuracy': accuracy.mean(),'std_accuracy': accuracy.std()}
+            answer['scores'] = {'mean_fit_time': scores['fit_time'].mean(),'std_fit_time': scores['fit_time'].std(),'mean_accuracy': accuracy.mean(),'std_accuracy': accuracy.std()}
             answer["explain_kfold_vs_shuffle_split"] = "Shuffle split can be more helpful in examining the variablilty of models compared to Kfold, but can be worse and less stable when trying to do a basic model evaluation."
             return answer
 
