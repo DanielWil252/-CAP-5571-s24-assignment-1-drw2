@@ -120,18 +120,19 @@ class Section1:
     ):
         # scores, clf, cv = self.partC(X, y)
         # Enter your code and fill the `answer` dictionary
+        answer = {}
         cv = KFold(n_splits=5,shuffle=True,random_state=self.seed)
         clf = DecisionTreeClassifier(random_state=self.seed)
         clf.fit(X,y)
         scores = cross_validate(clf,X,y,cv=cv)
         accuracy = scores['test_score']
+        answer['scores'] = {'mean_fit_time': scores['fit_time'].mean(),'std_fit_time': scores['fit_time'].std(),'mean_accuracy': accuracy.mean(),'std_accuracy': accuracy.std()}
         #print(f"mean accuracy: {accuracy.mean()}\nstd accuracy: {accuracy.std()}")
-        answer = {}
+        
         answer["clf"] = clf  # the estimator (classifier instance)
         answer["cv"] = cv  # the cross validator instance
         # the dictionary with the scores  (a dictionary with
         # keys: 'mean_fit_time', 'std_fit_time', 'mean_accuracy', 'std_accuracy'.
-        answer["scores"] = scores
         return answer
 
     # ---------------------------------------------------------
@@ -152,13 +153,13 @@ class Section1:
         scores = cross_validate(clf,X,y,cv=cv)
         accuracy = scores['test_score']
         #print(f"mean accuracy: {accuracy.mean()}\nstd accuracy: {accuracy.std()}")
-        answer = {}
+        
         # Answer: same structure as partC, except for the key 'explain_kfold_vs_shuffle_split'
 
         answer = {}
         answer["clf"] = clf
         answer["cv"] = cv
-        answer["scores"] = scores
+        answer['scores'] = {'mean_fit_time': scores['fit_time'].mean(),'std_fit_time': scores['fit_time'].std(),'mean_accuracy': accuracy.mean(),'std_accuracy': accuracy.std()}
         answer["explain_kfold_vs_shuffle_split"] = "Shuffle split can be more helpful in examining the variablilty of models compared to Kfold, but can be worse and less stable when trying to do a basic model evaluation."
         return answer
 
@@ -182,8 +183,9 @@ class Section1:
             clf.fit(X,y)
             scores = cross_validate(clf,X,y,cv=cv)
             accuracy = scores['test_score']
+            scoresDict = {'mean_fit_time': scores['fit_time'].mean(),'std_fit_time': scores['fit_time'].std(),'mean_accuracy': accuracy.mean(),'std_accuracy': accuracy.std()}
             #print(f"mean accuracy: {accuracy.mean()}\nstd accuracy: {accuracy.std()}")
-            answer[k] = {'scores':scores, 'cv':cv, 'clf':clf}
+            answer[k] = {'scores': scoresDict,'cv':cv, 'clf':clf}
         # Answer: built on the structure of partC
         # `answer` is a dictionary with keys set to each split, in this case: 2, 5, 8, 16
         # Therefore, `answer[k]` is a dictionary with keys: 'scores', 'cv', 'clf`

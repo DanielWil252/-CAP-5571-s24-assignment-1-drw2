@@ -167,6 +167,8 @@ class Section2:
                     
                     #print(f"mean accuracy: {accuracy.mean()}\nstd accuracy: {accuracy.std()}")
                     
+                    #answer["scores_RF"] = {"mean_fit_time":scores_RF['fit_time'].mean(),"std_fit_time":scores_RF['fit_time'].std(),"mean_accuracy":accuracy_RF.mean(),"std_accuracy":accuracy_RF.std()}
+                    #answer["scores_DT"] = {"mean_fit_time":scores_DT['fit_time'].mean(),"std_fit_time":scores_DT['fit_time'].std(),"mean_accuracy":accuracy_DT.mean(),"std_accuracy":accuracy_DT.std()}
                     answer["scores_train_F"] = scores_train
                     answer["scores_test_F"] = scores_test
                     answer["mean_cv_accuracy_F"] = scores_train['test_score'].mean()
@@ -186,7 +188,7 @@ class Section2:
             answer[n] = {
             "partC" : Part1.partC(self,Xtrain,ytrain),
             "partD" : Part1.partD(self,Xtrain,ytrain),
-            "partF" : partF(self,Xtrain,ytrain,Xtest,ytest),
+            "partF" : Part1.partF(self,Xtrain,ytrain),
             "ntrain" : n,
             "ntest" : ntest_list[ind],
             "class_count_train" : class_count_train.tolist(),
@@ -208,5 +210,5 @@ class Section2:
             - "class_count_test": number of elements in each class in
                                the training set (a list, not a numpy array)
         """
-        #print(answer)
+        print(answer)
         return answer
