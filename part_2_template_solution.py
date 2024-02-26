@@ -150,32 +150,37 @@ class Section2:
                     cm_original_train = confusion_matrix(y,clf_LR.predict(X))
                     cm_original_test = confusion_matrix(ytest,clf_LR.predict(Xtest))
 
-                    #TP = cm_original_test[1, 1]
-                    #TN = cm_original_test[0, 0]
-                    #FP = cm_original_test[0, 1]
-                    #FN = cm_original_test[1, 0]
-                    #accuracy_test = (TP + TN)/(TP+TN+FP+FN)
+                    TP = cm_original_test[1, 1]
+                    TN = cm_original_test[0, 0]
+                    FP = cm_original_test[0, 1]
+                    FN = cm_original_test[1, 0]
+                    accuracy_test = (TP + TN)/(TP+TN+FP+FN)
 
-                    #TP = cm_original_train[1, 1]
-                    #TN = cm_original_train[0, 0]
-                    #FP = cm_original_train[0, 1]
-                    #FN = cm_original_train[1, 0]
-                    #accuracy_train = (TP + TN)/(TP+TN+FP+FN)
-
-                    scores_train = cross_validate(clf_LR,X,y,cv=cv)
-                    scores_test = cross_validate(clf_LR,Xtest,ytest,cv=cv)
+                    TP = cm_original_train[1, 1]
+                    TN = cm_original_train[0, 0]
+                    FP = cm_original_train[0, 1]
+                    FN = cm_original_train[1, 0]
+                    accuracy_train = (TP + TN)/(TP+TN+FP+FN)
+                    print("training is more accurate." if accuracy_train > accuracy_test else "testing is more accurate.")
+                    scores = cross_validate(clf_LR,X,y,cv=cv)
                     
+                    #accuracy = scores_train['test_score']
                     #print(f"mean accuracy: {accuracy.mean()}\nstd accuracy: {accuracy.std()}")
-                    
-                    #answer["scores_RF"] = {"mean_fit_time":scores_RF['fit_time'].mean(),"std_fit_time":scores_RF['fit_time'].std(),"mean_accuracy":accuracy_RF.mean(),"std_accuracy":accuracy_RF.std()}
-                    #answer["scores_DT"] = {"mean_fit_time":scores_DT['fit_time'].mean(),"std_fit_time":scores_DT['fit_time'].std(),"mean_accuracy":accuracy_DT.mean(),"std_accuracy":accuracy_DT.std()}
-                    answer["scores_train_F"] = scores_train
-                    answer["scores_test_F"] = scores_test
-                    answer["mean_cv_accuracy_F"] = scores_train['test_score'].mean()
+
+
+                    scores_train_F = clf_LR.score(X, y)
+                    scores_test_F = clf_LR.score(Xtest, ytest) # scalar
+                    mean_cv_accuracy_F = scores["test_score"].mean()
+
+                    answer["scores_train_F"] = scores_train_F
+                    answer["scores_test_F"] = scores_test_F
+                    answer["mean_cv_accuracy_F"] = mean_cv_accuracy_F
                     answer["clf"] = clf_LR
                     answer["cv"] = cv
                     answer["conf_mat_train"] = cm_original_train
                     answer["conf_mat_test"] = cm_original_test
+                    #answer["conf_mat_train"] = cm_original_train
+                    #answer["conf_mat_test"] = cm_original_test
                     return answer
 
         for ind,n in enumerate(ntrain_list):
@@ -188,7 +193,7 @@ class Section2:
             answer[n] = {
             "partC" : Part1.partC(self,Xtrain,ytrain),
             "partD" : Part1.partD(self,Xtrain,ytrain),
-            "partF" : Part1.partF(self,Xtrain,ytrain),
+            "partF" : partF(self,Xtrain,ytrain,Xtest,ytest),
             "ntrain" : n,
             "ntest" : ntest_list[ind],
             "class_count_train" : class_count_train.tolist(),
